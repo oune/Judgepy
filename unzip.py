@@ -10,9 +10,7 @@ def get_one_file(message):
 if __name__ == '__main__':
     from tkinter import filedialog
     from tkinter import messagebox
-    import sys
     import os
-    import zipfile
     import subprocess
 
     bandizip_path = get_one_file("반디집 실행파일을 선택 해 주세요")
