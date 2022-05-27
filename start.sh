@@ -18,17 +18,12 @@ do
   cd "$dirPath"
   echo "compiling..."
   javac *.java && echo "compile success" || echo "compile failed"
-  java $className < "$rootPath/testcase/1.txt" >> "$rootPath/out/$outName.txt" && echo "java run success" || echo "java run fail"
-
-  for codeDir in "$rootPath"/testcase/*/
+  
+  for testcase in "$rootPath"/testcase/$1/*
   do
-	 subjectDir=${codeDir%/}
-	 subjectName=${subjectDir##?*/}
-	 
-	 for testcase in "$codeDir"*
-	 do
-		 echo $testcase
-	 done
+	  echo "$testcase" >> "$rootPath/out/$outName.txt"  
+	java $className < "$testcase" >> "$rootPath/out/$outName.txt" && echo "case $testcase success" || echo "case $testcase fail" 
+       echo "" >> "$rootPath/out/$outName.txt"  	
   done
 
   echo ""
