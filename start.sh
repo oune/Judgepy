@@ -2,29 +2,29 @@
 
 rootPath=$(pwd)
 mkdir -p out
+mkdir -p file
 
 while read line;
 do
-  cd "$rootPath"
+	cd "$rootPath"
+	
+	mainPath="${line%.java}"
+	dirPath="${mainPath%/?*}"
+	className="${mainPath##?*/}"
+	outName=`echo $mainPath | tr -d '/' | tr -d '.'`
+      	echo "target: $dirPath"
+      	echo "className: $className"
 
-  mainPath="${line%.java}"
-  dirPath="${mainPath%/?*}"
-  className="${mainPath##?*/}"
-  outName=`echo $mainPath | tr -d '/' | tr -d '.'`
+     	cd "$dirPath"
+      	echo "compiling..."
+      	javac *.java && echo "compile success" || echo "compile failed"
 
-  echo "target: $dirPath"
-  echo "className: $className"
+      	for testcase in "$rootPath"/testcase/$1/*
+      	do
+      		echo "$testcase" >> "$rootPath/out/$outName.txt"  
+		java $className "$rootPath/file/$2" < "$testcase" >> "$rootPath/out/$outName.txt" && echo "case $testcase success" || echo "case $testcase fail" 
+	 	echo "" >> "$rootPath/out/$outName.txt"  	
+      	done
 
-  cd "$dirPath"
-  echo "compiling..."
-  javac *.java && echo "compile success" || echo "compile failed"
-  
-  for testcase in "$rootPath"/testcase/$1/*
-  do
-	  echo "$testcase" >> "$rootPath/out/$outName.txt"  
-	java $className < "$testcase" >> "$rootPath/out/$outName.txt" && echo "case $testcase success" || echo "case $testcase fail" 
-       echo "" >> "$rootPath/out/$outName.txt"  	
-  done
-
-  echo ""
+      	echo ""
 done 
