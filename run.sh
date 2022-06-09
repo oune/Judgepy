@@ -18,7 +18,7 @@ while read line; do
   echo "compiling..."
   javac *.java && echo "compile success" || echo "compile failed"
 
-  for testcase in "$rootPath"/testcase/$1/*; do
+  for testcase in "$rootPath"/testcase/"$1"/*; do
     echo "$testcase" >>"$rootPath/out/$outName.txt"
     java "$className" < "$testcase" >>"$rootPath/out/$outName.txt" && echo "case $testcase success" || echo "case $testcase fail"
     echo "" >>"$rootPath/out/$outName.txt"

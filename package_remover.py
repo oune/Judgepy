@@ -2,7 +2,7 @@ import os
 import chardet
 from tqdm import tqdm 
 
-s = open("source_list.txt", "r")
+s = open("source_list.txt", "r", encoding="utf-8")
 source_list = s.readlines()
 
 for source in tqdm(source_list):
